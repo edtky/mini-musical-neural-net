@@ -14,7 +14,8 @@ mozart_data = './txt-files/notewise/custom/mozart.txt'
 
 with open(mozart_data, 'r') as file:
     text = file.read()
-
+    file.close()
+    
     
 # get vocabulary set
 words = sorted(tuple(set(text.split())))
@@ -71,7 +72,7 @@ class WordLSTM(nn.ModuleList):
         hc_1, hc_2 = hc, hc
         
         # for t-th word in every sequence 
-        for t in range(len(sequence_len)):
+        for t in range(self.sequence_len):
             
             # layer 1 lstm
             hc_1 = self.lstm_1(x[t], hc_1)
@@ -115,7 +116,7 @@ class WordLSTM(nn.ModuleList):
         seq[0] = word2int[word]
         
         # init hidden, cell states for generation
-        hc = init_hidden_generate()
+        hc = self.init_hidden_generator()
         
         # encode starting word to one-hot encoding
         word = to_categorical(word2int[word], num_classes=self.vocab_size)
@@ -147,6 +148,8 @@ class WordLSTM(nn.ModuleList):
             
             # sample from top k words to get next word
             p = p.detach().squeeze().numpy()
+            top_word = torch.squeeze(top_word)
+            
             word = np.random.choice(top_word, p = p/p.sum())
             
             # add word to sequence
@@ -158,7 +161,8 @@ class WordLSTM(nn.ModuleList):
             
         return seq
 
-
+    
+    
 def get_batches(arr, n_seqs, n_words):
     """
         create generator object that returns batches of input (x) and target (y).
@@ -174,13 +178,13 @@ def get_batches(arr, n_seqs, n_words):
     batch_total = n_seqs * n_words
     
     # compute total number of complete batches
-    n_batches = arr//batch_total
+    n_batches = arr.size//batch_total
     
     # chop array at the last full batch
     arr = arr[: n_batches* batch_total]
     
     # reshape array to matrix with rows = no. of seq in one batch
-    arr = arr.reshape((n_seq, -1))
+    arr = arr.reshape((n_seqs, -1))
     
     # for each n_words in every row of the dataset
     for n in range(0, arr.shape[1], n_words):
@@ -199,9 +203,8 @@ def get_batches(arr, n_seqs, n_words):
         
         # yield function is like return, but creates a generator object
         yield x, y   
+
         
-
-
 # compile the network - sequence_len, vocab_size, hidden_dim, batch_size
 net = WordLSTM(sequence_len=128, vocab_size=len(word2int), hidden_dim=512, batch_size=128)
 
@@ -220,6 +223,7 @@ val_losses = list()
 samples = list()
 
 
+
 # finally train the model
 for epoch in range(100):
     
@@ -227,7 +231,7 @@ for epoch in range(100):
     hc = net.init_hidden()
     
     # (x, y) refers to one batch with index i, where x is input, y is target
-    for i, (x, y) in enumerate(get_batches(data, 128, 128)):
+    for i, (x, y) in enumerate(get_batches(train_data, 128, 128)):
         
         # get the torch tensors from the one-hot of training data
         # also transpose the axis for the training set and the targets
@@ -279,14 +283,3 @@ for epoch in range(100):
 
             with open("result_epoch" + str(epoch) + "_batch" + str(i) + ".txt", "w") as outfile:
                 outfile.write(' '.join([int2word[int_] for int_ in net.predict("p33", seq_len=512)]))
-
-
-
-
-
-
-
-
-
-
-
