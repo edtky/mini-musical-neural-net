@@ -278,8 +278,8 @@ for epoch in range(100):
                  
                 # samples.append(''.join([int2char[int_] for int_ in net.predict("p33", seq_len=1024)]))
                 
-            with open("loss_epoch" + str(epoch) + "_batch" + str(i) + ".txt", "w") as loss_file:
+            with open("./training_output/loss/loss_epoch" + str(epoch) + "_batch" + str(i) + ".txt", "w") as loss_file:
                 loss_file.write("Epoch: {}, Batch: {}, Train Loss: {:.6f}, Validation Loss: {:.6f}".format(epoch, i, loss.item(), val_loss.item()))
 
-            with open("result_epoch" + str(epoch) + "_batch" + str(i) + ".txt", "w") as outfile:
+            with open("./training_output/samples/result_epoch" + str(epoch) + "_batch" + str(i) + ".txt", "w") as outfile:
                 outfile.write(' '.join([int2word[int_] for int_ in net.predict("p33", seq_len=512)]))
