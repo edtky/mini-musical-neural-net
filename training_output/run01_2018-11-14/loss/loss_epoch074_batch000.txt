@@ -1,0 +1,1 @@
+Epoch: 74, Batch: 0, Train Loss: 0.332682, Validation Loss: 2.538543
