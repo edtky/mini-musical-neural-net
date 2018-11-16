@@ -13,6 +13,16 @@ These instructions will get you a copy of the project up and running on your loc
 
 3. Open the iPython Notebooks and follow the tutorial inside.
 
+## Basic Model Pipeline
+
+1. midi files for training goes into ***midi-files***
+
+2. encoder takes input midi files and converts them to text files into ***txt-files/notewise/note_range62/sample_freq12/***
+
+3. **word_model** takes text files as input and outputs generated text files into ***txt-files/notewise/custom***
+
+4. **notewise-decoder.py** takes text files and decodes them back to midi files into ***output-midi-files***
+
 ## Important Files / Folders
 
 ***notewise_decoder.py***  
