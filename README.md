@@ -38,6 +38,9 @@ experimenting with hyperparameters
 ***output-midi-files/notewise/custom/run01_2018-11-14/***  
 contains samples of generated files during training  
 
+## Poster for Project
+![alt text](./images/maia_poster.png)
+
 
 ## Acknowledgement
 
