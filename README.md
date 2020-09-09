@@ -13,6 +13,9 @@ These instructions will get you a copy of the project up and running on your loc
 
 3. Open the iPython Notebooks and follow the tutorial inside.
 
+## Data to train model
+Notewise text files of piano, jazz, and chamber (piano & violin)
+
 ## Basic Model Pipeline
 
 1. midi files for training goes into ***midi-files***
