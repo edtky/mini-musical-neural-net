@@ -9,7 +9,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 1. Clone this Github repo into your local machine.
 
-2. You will need to have the following packages install: music21, jupyter, numpy
+2. You will need to have the following packages install: pytorch, music21, jupyter, numpy
 
 3. Open the iPython Notebooks and follow the tutorial inside.
 
